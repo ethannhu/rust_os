@@ -1,8 +1,9 @@
-[build]
-target = "x86_64-prototype.json"
 [unstable]
 build-std = ["core","compiler_builtins","alloc"]
 
-[target.'cfg(target_os = "x86_64-prototype.json")']
+[target.'cfg(target_os = "none")']
 runner = "bootimage runner"
-rustflags = "-Zbuild-std-features=compiler-builtins-mem"
+
+[build]
+target = "x86_64-prototype.json"
+rustflags = ["-Zbuild-std-features=compiler-builtins-mem"]

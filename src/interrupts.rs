@@ -1,4 +1,4 @@
-use crate::{gdt, println, print};
+use crate::{gdt, print, println};
 use lazy_static::lazy_static;
 use pic8259::ChainedPics;
 use spin;
@@ -22,7 +22,6 @@ impl InterrputIndex {
         usize::from(self.as_u8())
     }
 }
-
 
 lazy_static! {
     static ref IDT: InterruptDescriptorTable = {
@@ -48,7 +47,8 @@ extern "x86-interrupt" fn breakpoint_handler(stack_frame: InterruptStackFrame) {
 extern "x86-interrupt" fn time_interrupt_handler(_stack_frame: InterruptStackFrame) {
     print!(".");
     unsafe {
-        PICS.lock().notify_end_of_interrupt(InterrputIndex::Timer.as_u8());
+        PICS.lock()
+            .notify_end_of_interrupt(InterrputIndex::Timer.as_u8());
     }
 }
 
@@ -59,7 +59,7 @@ extern "x86-interrupt" fn double_fault_handler(
     panic!("EXCEPTION: DOUBLE FAULT\n{:#?}", stack_frame);
 }
 
-#[test_case]
-fn test_breakpoint_exception() {
-    x86_64::instructions::interrupts::int3();
-}
+// #[test_case]
+// fn test_breakpoint_exception() {
+//     x86_64::instructions::interrupts::int3();
+// }

@@ -4,7 +4,7 @@
 #![test_runner(prototype::test_runner)]
 #![reexport_test_harness_main = "test_main"]
 use core::panic::PanicInfo;
-use prototype::println;
+use prototype::{hlt_loop, println};
 
 #[unsafe(no_mangle)]
 pub extern "C" fn _start() -> ! {
@@ -15,13 +15,13 @@ pub extern "C" fn _start() -> ! {
     test_main();
 
     println!("It Survived!");
-    loop {}
+    hlt_loop()
 }
 #[cfg(not(test))]
 #[panic_handler]
 fn panic(_info: &PanicInfo) -> ! {
     println!("panic: {}", _info);
-    loop {}
+    hlt_loop()
 }
 
 #[cfg(test)]

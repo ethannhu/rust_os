@@ -9,8 +9,12 @@ use prototype::{hlt_loop, println};
 #[unsafe(no_mangle)]
 pub extern "C" fn _start() -> ! {
     println!("Hello world {}!", "Blanca");
-
     prototype::init();
+    let ptr = 0xdeadbeaf as *mut u8;
+    unsafe {
+        *ptr = 42;
+    }
+
     #[cfg(test)]
     test_main();
 
